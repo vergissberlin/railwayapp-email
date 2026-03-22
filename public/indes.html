@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Contact</title>
+</head>
+
+<body>
+    <h1>Contact</h1>
+    <label for="email-to">email-to</label>
+    <input id='email-to' value="vergissberlin@gmail.com" name='to'>
+    </input>
+    <button onclick="testEmail()">Send EN mail</button>
+    <button onclick="testEmail('ZH_TW')">Send TW mail</button>
+
+    <script>
+        async function testEmail(locale = "EN_US") {
+            let res = await fetch(`/email/registration`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/JSON"
+                },
+                body: JSON.stringify({
+                    to: document.querySelector('#email-to').value,
+                    locale
+                })
+            })
+            if (res.ok) {
+                alert("Email sent")
+
+            } else {
+                let data = await res.json()
+                alert(`Information : ${data.message}`)
+            }
+        }
+    </script>
+</body>
+
+</html>
