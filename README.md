@@ -26,3 +26,6 @@ EMAIL_CLIENT_FROM="Your App <noreply@example.com>"
 * Never commit `.env` files with real SMTP credentials
 * Use app passwords or provider-specific API keys
 * Monitor `/healthz` in Railway healthchecks
+
+<!-- footer -->
+[![Email Service](https://img.shields.io/badge/Email%20Service-2563EB?style=for-the-badge&logo=maildotru&logoColor=white)](https://github.com/vergissberlin/railwayapp-email)
