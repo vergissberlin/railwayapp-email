@@ -1,0 +1,11 @@
+{
+  "$schema": "https://raw.githubusercontent.com/vergissberlin/railway/main/docs/railway-template.schema.json",
+  "schemaVersion": 1,
+  "project": "railwayapp-email",
+  "repo": "vergissberlin/railwayapp-email",
+  "displayName": "Email",
+  "publishedCode": "email",
+  "image": "https://raw.githubusercontent.com/vergissberlin/railwayapp-email/main/template-header.svg",
+  "description": "Deploy a lightweight email service template on Railway.",
+  "workspaceAutomation": true
+}
