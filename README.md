@@ -1,5 +1,8 @@
 # Railway Email Service
 
+![Template Header](./template-header.svg)
+
+
 Deploy a lightweight transactional email API on Railway.
 
 ## Features
