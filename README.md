@@ -23,11 +23,28 @@ EMAIL_HOST=smtp.gmail.com
 EMAIL_CLIENT_USER=your-user@example.com
 EMAIL_CLIENT_PASSWORD=your-app-password
 EMAIL_CLIENT_FROM="Your App <noreply@example.com>"
+EMAIL_API_KEY=                                # Set this in the Railway dashboard as a generated secret
 ```
+
+## Authentication
+
+`POST /email/registration` requires an API key. Send it as the `x-api-key` header:
+
+```bash
+curl -X POST https://your-service.up.railway.app/email/registration \
+  -H "Content-Type: application/json" \
+  -H "x-api-key: $EMAIL_API_KEY" \
+  -d '{"locale":"EN_US","to":"user@example.com"}'
+```
+
+Requests without a valid `x-api-key` header receive `401 Unauthorized`. Keep
+`EMAIL_API_KEY` out of source control and client-side code; treat it like any
+other secret.
 
 ## Production recommendations (Railway)
 
 * Keep credentials only in Railway Variables
+* `EMAIL_CLIENT_USER` / `EMAIL_CLIENT_PASSWORD` are external SMTP (Gmail) credentials — set them in Railway as secret variables (not plain text), the same as `EMAIL_API_KEY`
 * Never commit `.env` files with real SMTP credentials
 * Use app passwords or provider-specific API keys
 * Monitor `/healthz` in Railway healthchecks
