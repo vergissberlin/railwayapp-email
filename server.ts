@@ -25,6 +25,12 @@ app.get("/healthz", (_req, res) => {
 })
 
 app.post("/email/registration", (req, res) => {
+    const apiKey = req.header("x-api-key")
+    if (!process.env.EMAIL_API_KEY || apiKey !== process.env.EMAIL_API_KEY) {
+        res.status(401).json({ message: "Unauthorized" })
+        return
+    }
+
     if (missingEnvVars.length > 0) {
         res.status(500).json({
             message: "Email service is not configured",
@@ -77,6 +83,12 @@ if (missingEnvVars.length > 0) {
     console.error(
         "Missing required environment variables:",
         missingEnvVars.join(", ")
+    )
+}
+
+if (!process.env.EMAIL_API_KEY) {
+    console.error(
+        "EMAIL_API_KEY is not set: POST /email/registration will reject all requests with 401"
     )
 }
 
