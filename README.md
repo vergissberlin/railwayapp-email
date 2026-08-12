@@ -14,6 +14,15 @@ Deploy a lightweight transactional email API on Railway.
 * Runtime configuration via environment variables
 * Railway config as code via `railway.toml`
 
+## 🏗️ Architecture
+
+```mermaid
+flowchart LR
+    Client(["🌐 Client"]) -->|HTTPS| Domain["Railway Public Domain"]
+    Domain -->|"$PORT"| App["Container (Railpack build)\nnpm run build && npm start"]
+    App -.->|SMTP| Provider["External SMTP provider\n(e.g. Gmail)"]
+```
+
 ## Required variables
 
 ```bash
