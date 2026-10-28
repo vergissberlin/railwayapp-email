@@ -1,4 +1,3 @@
 <p>Hi {{name}}</p>
-<p>Thanks for signing up to Code-Talker!</p>
-<p>To get started, click the link below to confirm your account.</p>
-<p><a href="http://localhost:8080/user/verification/{{userId}}">Confirm your account</a></p>
+<p>Welcome! Your registration was successful.</p>
+{{#if token}}<p>Your registration token: <strong>{{token}}</strong></p>{{/if}}

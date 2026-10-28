@@ -24,7 +24,7 @@ app.get("/healthz", (_req, res) => {
     res.status(200).json({ status: "ok" })
 })
 
-app.post("/email/registration", (req, res) => {
+app.post("/email/registration", async (req, res) => {
     const apiKey = req.header("x-api-key")
     if (!process.env.EMAIL_API_KEY || apiKey !== process.env.EMAIL_API_KEY) {
         res.status(401).json({ message: "Unauthorized" })
@@ -39,38 +39,46 @@ app.post("/email/registration", (req, res) => {
         return
     }
 
-    let emailService = getEmailService()
-
-    let { locale, to } = req.body
-    console.log({ locale, to })
-    let localeKey = locale as keyof typeof LocaleEnum
-    let selectedLocale: LocaleEnum = LocaleEnum[localeKey]
+    const { locale = "EN_US", to, name = "there", userId, verificationUrl } = req.body ?? {}
+    if (typeof to !== "string" || !/^[^\s@]+@[^\s@]+$/.test(to)) {
+        res.status(400).json({ message: "Field \"to\" must be a valid email address" })
+        return
+    }
+    const selectedLocale = LocaleEnum[locale as keyof typeof LocaleEnum]
     if (!selectedLocale) {
-        res.json({
-            message: "Invalid locale, please pick from :['ZH_TW', 'EN_US']"
+        res.status(400).json({
+            message: "Invalid locale, please pick from: ['ZH_TW', 'EN_US']"
         })
         return
     }
 
-    try {
-        let sendMaileOption: SendMailOption<
-            IEmailTemplateContext["VERIFICATION"]
-        > = {
-            IToList: [
-                {
-                    email: to,
-                    locale: selectedLocale,
-                    context: { name: "Dickson", userId: 9999 }
+    const baseUrl =
+        process.env.VERIFICATION_BASE_URL || "http://localhost:8080/user/verification/"
+    const sendMailOption: SendMailOption<IEmailTemplateContext["VERIFICATION"]> = {
+        IToList: [
+            {
+                email: to,
+                locale: selectedLocale,
+                context: {
+                    name: String(name),
+                    userId: userId ?? "",
+                    verificationUrl:
+                        typeof verificationUrl === "string" && verificationUrl
+                            ? verificationUrl
+                            : `${baseUrl}${userId ?? ""}`
                 }
-            ],
-            template: EmailTemplate.VERIFICATION
-        }
+            }
+        ],
+        template: EmailTemplate.VERIFICATION
+    }
 
-        emailService.sendEmails(sendMaileOption)
-        res.send("email/registration done ")
+    try {
+        const { messageIds } = await getEmailService().sendEmails(sendMailOption)
+        res.status(200).json({ message: "email/registration done", messageIds })
     } catch (error) {
-        res.json({
-            message: error
+        console.error("Failed to send registration email:", error)
+        res.status(502).json({
+            message: error instanceof Error ? error.message : String(error)
         })
     }
 })
