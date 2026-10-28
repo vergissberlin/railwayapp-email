@@ -11,8 +11,9 @@
 <body>
     <h1>Contact</h1>
     <label for="email-to">email-to</label>
-    <input id='email-to' value="vergissberlin@gmail.com" name='to'>
-    </input>
+    <input id="email-to" type="email" placeholder="user@example.com" name="to" />
+    <label for="api-key">x-api-key</label>
+    <input id="api-key" type="password" placeholder="EMAIL_API_KEY" name="apiKey" />
     <button onclick="testEmail()">Send EN mail</button>
     <button onclick="testEmail('ZH_TW')">Send TW mail</button>
 
@@ -21,7 +22,8 @@
             let res = await fetch(`/email/registration`, {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/JSON"
+                    "Content-Type": "application/json",
+                    "x-api-key": document.querySelector('#api-key').value
                 },
                 body: JSON.stringify({
                     to: document.querySelector('#email-to').value,

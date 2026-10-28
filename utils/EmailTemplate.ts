@@ -2,7 +2,7 @@ import { LocaleEnum } from "../services/email-service"
 
 export class EmailTemplate {
     static readonly REGISTRATION = new EmailTemplate("REGISTRATION", {
-        templateName: "regisration",
+        templateName: "registration",
         emailSubject: {
             en: "Registration",
             tw: "註冊"
@@ -16,7 +16,7 @@ export class EmailTemplate {
         }
     });
     static readonly INVITATION = new EmailTemplate("INVITATION", {
-        templateName: "INVITATION",
+        templateName: "invitation",
         emailSubject: {
             en: "Invitation From Code-talker",
             tw: "邀請"

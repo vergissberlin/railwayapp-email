@@ -43,7 +43,24 @@ EMAIL_API_KEY=                                # Set this in the Railway dashboar
 curl -X POST https://your-service.up.railway.app/email/registration \
   -H "Content-Type: application/json" \
   -H "x-api-key: $EMAIL_API_KEY" \
-  -d '{"locale":"EN_US","to":"user@example.com"}'
+  -d '{"locale":"EN_US","to":"user@example.com","name":"Jane","userId":42}'
+```
+
+Body fields: `to` (required, email address), `locale` (`EN_US` or `ZH_TW`, default `EN_US`),
+`name`, `userId` and optional `verificationUrl` (otherwise `VERIFICATION_BASE_URL` + `userId`).
+The endpoint answers `200` with the SMTP message ID, `400` for invalid input and `502` if the
+SMTP server rejects the message.
+
+Templates live in `templates/<locale>/<name>.hbs` (`verification`, `registration`, `invitation`).
+Missing locales fall back to `en`.
+
+## Optional variables
+
+```bash
+EMAIL_PORT=587                 # SMTP port (default: provider/nodemailer default)
+EMAIL_SECURE=false             # true for implicit TLS (default: true only on port 465)
+VERIFICATION_BASE_URL=https://app.example.com/user/verification/
+EMAIL_TEMPLATE_DIR=/app/templates
 ```
 
 Requests without a valid `x-api-key` header receive `401 Unauthorized`. Keep

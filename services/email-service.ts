@@ -27,8 +27,9 @@ export interface IEmailTemplateContext {
         token: string
     }
     VERIFICATION: {
-        userId: number
+        userId: number | string
         name: string
+        verificationUrl: string
     }
     INVITATION: {
         roomURL: string
@@ -43,42 +44,55 @@ export interface SendMailOption<T> {
     IToList: IToList<T>[]
     template: EmailTemplate
 }
+// Templates live in <project root>/templates/<locale>/<name>.hbs. The compiled
+// code runs from dist/services, so resolve relative to the working directory
+// first and fall back to paths relative to this file.
+const TEMPLATE_DIRS = [
+    process.env.EMAIL_TEMPLATE_DIR,
+    path.resolve(process.cwd(), "templates"),
+    path.resolve(__dirname, "..", "templates"),
+    path.resolve(__dirname, "..", "..", "templates")
+].filter((dir): dir is string => Boolean(dir))
+
+export function resolveTemplatePath(templateName: string, locale: LocaleEnum): string {
+    const locales = locale === LocaleEnum.EN_US ? [locale] : [locale, LocaleEnum.EN_US]
+    for (const dir of TEMPLATE_DIRS) {
+        for (const loc of locales) {
+            const candidate = path.join(dir, loc, `${templateName}.hbs`)
+            if (fs.existsSync(candidate)) return candidate
+        }
+    }
+    throw new Error(`Email template "${templateName}" not found for locale "${locale}"`)
+}
+
 export class EmailService {
     private mailTransport!: Transporter<SMTPTransport.SentMessageInfo>
     constructor() {
         this.initMailConfig()
     }
 
-    sendEmails(sendMaileOption: ISendEmailOption) {
-        let htmlContent = []
-        let { IToList, template } = sendMaileOption
-        for (let to of IToList) {
-            let mailOptions = {
+    async sendEmails(sendMaileOption: ISendEmailOption) {
+        const htmlContent: string[] = []
+        const messageIds: string[] = []
+        const { IToList, template } = sendMaileOption
+        for (const to of IToList) {
+            const locale = to.locale || LocaleEnum.EN_US
+            const mailOptions = {
                 from: process.env.EMAIL_CLIENT_FROM,
                 to: to.email,
-                subject: template.value.emailSubject[to.locale || "en"],
+                subject: template.value.emailSubject[locale],
                 html: this.getEmailContent({
                     templateName: template.value.templateName,
-                    locale: to.locale,
+                    locale,
                     context: to.context
                 })
             }
-            console.log({ mailOptions })
-
-            try {
-                this.mailTransport.sendMail(mailOptions, (err: any, info: any) => {
-                    if (err) {
-                        console.log("some error here :", err)
-                    } else {
-                        console.log("Email sent: " + info.response)
-                    }
-                })
-            } catch (error) {
-                console.log("error here ", error)
-            }
+            const info = await this.mailTransport.sendMail(mailOptions)
+            console.log("Email sent:", info.messageId, info.response)
+            messageIds.push(info.messageId)
             htmlContent.push(mailOptions.html)
         }
-        return { htmlContent }
+        return { htmlContent, messageIds }
     }
 
     getEmailContent(emailOptions: {
@@ -88,7 +102,7 @@ export class EmailService {
     }) {
         const { templateName, locale = LocaleEnum.EN_US, context } = emailOptions
         const emailTemplateSource = fs.readFileSync(
-            path.resolve(`email-templates/${locale}/${templateName}.hbs`),
+            resolveTemplatePath(templateName, locale),
             "utf8"
         )
         const template = handlebars.compile(emailTemplateSource)
@@ -97,9 +111,14 @@ export class EmailService {
     }
 
     initMailConfig() {
+        const port = process.env.EMAIL_PORT ? Number(process.env.EMAIL_PORT) : undefined
         const emailConfig = {
             service: process.env.EMAIL_SERVICE_PROVIDER,
             host: process.env.EMAIL_HOST,
+            port,
+            secure: process.env.EMAIL_SECURE
+                ? process.env.EMAIL_SECURE === "true"
+                : port === 465,
             auth: {
                 user: process.env.EMAIL_CLIENT_USER, // generated gmail user
                 pass: process.env.EMAIL_CLIENT_PASSWORD // generated gmail account password
