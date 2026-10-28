@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.2.1](https://github.com/vergissberlin/railwayapp-email/compare/v0.2.0...v0.2.1) (2026-10-28)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @types/node to v26.6.5 ([#8](https://github.com/vergissberlin/railwayapp-email/issues/8)) ([24ea02a](https://github.com/vergissberlin/railwayapp-email/commit/24ea02a5ec8fde7182dee6f74d2bf77f8cc37769))
+* **deps:** update dependency @types/nodemailer to v8.0.2 ([#12](https://github.com/vergissberlin/railwayapp-email/issues/12)) ([5cea510](https://github.com/vergissberlin/railwayapp-email/commit/5cea510a8906cde34de67b5106dc8f90f13b27a5))
+* **deps:** update dependency dotenv to v18 ([#13](https://github.com/vergissberlin/railwayapp-email/issues/13)) ([6c34cc1](https://github.com/vergissberlin/railwayapp-email/commit/6c34cc18cbb9a3671ca912d801c15ae8f63eb5e4))
+* **deps:** update dependency express to v5.3.0 ([#15](https://github.com/vergissberlin/railwayapp-email/issues/15)) ([9e2bf3a](https://github.com/vergissberlin/railwayapp-email/commit/9e2bf3acc8a8c3cf33a255bbc450176708457294))
+* **deps:** update dependency handlebars to v4.7.10 ([#14](https://github.com/vergissberlin/railwayapp-email/issues/14)) ([5b0e2a6](https://github.com/vergissberlin/railwayapp-email/commit/5b0e2a6e171c966458557011babcd196d8592c72))
+* **deps:** update dependency nodemailer to v10 ([#11](https://github.com/vergissberlin/railwayapp-email/issues/11)) ([326a2b0](https://github.com/vergissberlin/railwayapp-email/commit/326a2b05a2de57955c5ff31a195f4cf3d11419be))
+
+
+### Documentation
+
+* add template forum link ([#16](https://github.com/vergissberlin/railwayapp-email/issues/16)) ([d4ce71e](https://github.com/vergissberlin/railwayapp-email/commit/d4ce71e0f56c98aa89a1e72f654eaa83feceb696))
+
 ## [0.2.0](https://github.com/vergissberlin/railwayapp-email/compare/v0.1.0...v0.2.0) (2026-08-20)
 
 
