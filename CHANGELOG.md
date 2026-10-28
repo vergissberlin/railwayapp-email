@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/vergissberlin/railwayapp-email/compare/v0.2.1...v0.2.2) (2026-10-28)
+
+
+### Bug Fixes
+
+* resolve email templates from templates/ and add missing verification template ([#18](https://github.com/vergissberlin/railwayapp-email/issues/18)) ([442c6ff](https://github.com/vergissberlin/railwayapp-email/commit/442c6ffc58e3077e13d985be2ec4d1111ae6284e))
+
 ## [0.2.1](https://github.com/vergissberlin/railwayapp-email/compare/v0.2.0...v0.2.1) (2026-10-28)
 
 
