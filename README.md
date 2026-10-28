@@ -58,6 +58,10 @@ other secret.
 * Use app passwords or provider-specific API keys
 * Monitor `/healthz` in Railway healthchecks
 
+## 💬 Support
+
+Questions or feedback? Visit the [template forum on Railway Central Station](https://station.railway.com/templates/email-6a28bafa).
+
 <!-- footer -->
 ---
 
