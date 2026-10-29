@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.4](https://github.com/vergissberlin/railwayapp-email/compare/v0.2.3...v0.2.4) (2026-10-29)
+
+
+### Bug Fixes
+
+* **deps:** update dependency nodemailer to v10.3.0 ([#22](https://github.com/vergissberlin/railwayapp-email/issues/22)) ([2922aeb](https://github.com/vergissberlin/railwayapp-email/commit/2922aebf13e1b01a8eccacd7398c8b849e1d8034))
+
 ## [0.2.3](https://github.com/vergissberlin/railwayapp-email/compare/v0.2.2...v0.2.3) (2026-10-29)
 
 
