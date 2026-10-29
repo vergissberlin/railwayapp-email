@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.3](https://github.com/vergissberlin/railwayapp-email/compare/v0.2.2...v0.2.3) (2026-10-29)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @types/node to v26.6.6 ([#20](https://github.com/vergissberlin/railwayapp-email/issues/20)) ([a0fbd9d](https://github.com/vergissberlin/railwayapp-email/commit/a0fbd9d463e765dca59622f95174b2ca3de2eda4))
+
 ## [0.2.2](https://github.com/vergissberlin/railwayapp-email/compare/v0.2.1...v0.2.2) (2026-10-28)
 
 
