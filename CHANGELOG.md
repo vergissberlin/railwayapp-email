@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.6](https://github.com/vergissberlin/railwayapp-email/compare/v0.2.5...v0.2.6) (2026-11-09)
+
+
+### Bug Fixes
+
+* **deps:** update dependency dotenv to v18.0.10 ([#27](https://github.com/vergissberlin/railwayapp-email/issues/27)) ([13cc33c](https://github.com/vergissberlin/railwayapp-email/commit/13cc33cb9c8beeea8e15709be4eabf8ef6471c47))
+* **deps:** update dependency nodemailer to v10.4.0 ([#26](https://github.com/vergissberlin/railwayapp-email/issues/26)) ([eb225d9](https://github.com/vergissberlin/railwayapp-email/commit/eb225d9492d7a4511e65c61f5a5348029fda64f2))
+
 ## [0.2.5](https://github.com/vergissberlin/railwayapp-email/compare/v0.2.4...v0.2.5) (2026-10-30)
 
 
